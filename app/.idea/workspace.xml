@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="774b57ed-c607-45b9-85a5-8bafb41dc4f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/supersleuth/GameActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/supersleuth/GameActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/supersleuth/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/supersleuth/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/supersleuth/ScoreActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/supersleuth/ScoreActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_game.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_game.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_score.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_score.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
