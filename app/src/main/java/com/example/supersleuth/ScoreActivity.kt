@@ -30,7 +30,7 @@ class ScoreActivity : AppCompatActivity() {
 
     fun mainTime(view: View) {
         // Do something in response to button click
-        val intent = Intent(this, GameActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("highscore", highScore)
         startActivity(intent)
         finish()

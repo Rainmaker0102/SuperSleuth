@@ -7,18 +7,21 @@ import android.view.View
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
-    private var highScore: String = "0"
+    private var highScoreVal: String = "0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        highScore= intent.getStringExtra("highscore")!!
+        val highScore =intent.getStringExtra("highscore")
+        if (highScore != null) {
+            highScoreVal = highScore
+        }
     }
 
     fun playTime(view: View) {
         // Do something in response to button click
-        val intent = Intent(this, ScoreActivity::class.java)
-        intent.putExtra("highscore", highScore)
+        val intent = Intent(this, GameActivity::class.java)
+        intent.putExtra("highscore", highScoreVal)
         startActivity(intent)
         finish()
     }
