@@ -8,6 +8,7 @@ import android.view.View
 class GameActivity : AppCompatActivity() {
     private var gameScore: Int = 0
     private var highScoreVal: Int = 0
+    private var sleuthSearchColor: String = "FF0000"
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,5 +29,9 @@ class GameActivity : AppCompatActivity() {
         intent.putExtra("highscore", highScoreVal.toString())
         startActivity(intent)
         finish()
+    }
+
+    fun newColor(oldColor: String) {
+
     }
 }
