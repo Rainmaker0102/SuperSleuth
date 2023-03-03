@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
 
-        preview.setSurfaceProvider(previewView.getSurfaceProvider())
+//        preview.setSurfaceProvider(previewView.getSurfaceProvider())
 
         var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
     }
