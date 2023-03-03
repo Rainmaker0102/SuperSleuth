@@ -29,8 +29,8 @@ class GameActivity : AppCompatActivity() {
     Purple 	#800080 	rgb(128, 0, 128)
     */
 
-    private val colorValWhite: String = "FF0000"
-
+    private val colorValWhite: IntArray = intArrayOf(255, 255, 255)
+    private val colorValSilver: IntArray = intArrayOf(192, 192, 192)
 
 
 
