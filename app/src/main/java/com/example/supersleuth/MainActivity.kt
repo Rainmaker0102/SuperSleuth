@@ -13,53 +13,84 @@ References:
 package com.example.supersleuth
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.Preview
-import kotlin.system.exitProcess
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
-import com.google.common.util.concurrent.ListenableFuture
+import com.google.android.material.snackbar.Snackbar
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
     private var highScoreVal: String = "0"
 
-    private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
+//    private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+//        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        requestPermission.launch(android.Manifest.permission.CAMERA)
+
+
         val highScore =intent.getStringExtra("highscore")
         if (highScore != null) {
             highScoreVal = highScore
         }
 
-        cameraProviderFuture.addListener(Runnable {
-            val cameraProvider = cameraProviderFuture.get()
-            bindPreview(cameraProvider)
-        }, ContextCompat.getMainExecutor(this))
+//        cameraProviderFuture.addListener(Runnable {
+//            val cameraProvider = cameraProviderFuture.get()
+//            bindPreview(cameraProvider)
+//        }, ContextCompat.getMainExecutor(this))
 
     }
 
-    private fun bindPreview(cameraProvider : ProcessCameraProvider) {
-        var preview : Preview = Preview.Builder()
-            .build()
+//    private fun requestPermission() {
+//        when {
+//            ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.CAMERA
+//            ) == PackageManager.PERMISSION_GRNATED -> {
+//                //PERMISSION GRANTED
+//            }
+//            ActivityCompat.shouldShowRequestPermissionRationale(
+//                this,
+//                android.Manifest.permission.CAMERA
+//            ) -> {
+//                layout.showSnackbar(
+//                    view,
+//                    getString(R.string.permission_required),
+//                    Snackbar.LENGTH_INDEFINITE,
+//                    getString(R.string.ok)
+//                ) {
+//                    requestPermissionLauncher.launch(
+//                        android.Manifest.permission.CAMERA
+//                    )
+//                }
+//            }
+//            else -> {
+//                //PERMISSION NOT ASKED YET
+//            }
+//        }
+//    }
 
-        var cameraSelector : CameraSelector = CameraSelector.Builder()
-            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-            .build()
-
-//        preview.setSurfaceProvider(previewView.getSurfaceProvider())
-
-        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
-    }
+//    private fun bindPreview(cameraProvider : ProcessCameraProvider) {
+//        var preview : Preview = Preview.Builder()
+//            .build()
+//
+//        var cameraSelector : CameraSelector = CameraSelector.Builder()
+//            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+//            .build()
+//
+////        preview.setSurfaceProvider(previewView.getSurfaceProvider())
+//
+//        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
+//    }
 
 
     fun playTime(view: View) {
