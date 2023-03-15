@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        requestPermission.launch(android.Manifest.permission.CAMERA)
+//        requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
 
 
         val highScore =intent.getStringExtra("highscore")
