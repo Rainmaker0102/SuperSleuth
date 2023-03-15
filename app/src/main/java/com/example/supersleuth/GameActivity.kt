@@ -21,6 +21,7 @@ class GameActivity : AppCompatActivity() {
 
     private var gameScore: Int = 0
     private var highScoreVal: Int = 0
+    private var sleuthSearchName: String = "Red"
     private var sleuthSearchColor: String = "FF0000"
 
     /*
@@ -42,8 +43,24 @@ class GameActivity : AppCompatActivity() {
     Purple 	    #800080 	rgb(128, 0, 128)
     */
 
-    private val colorValWhite: IntArray = intArrayOf(255, 255, 255)
-    private val colorValSilver: IntArray = intArrayOf(192, 192, 192)
+    private val colorWhite : String= "FFFFFF"
+    private val colorSilver : String= "C0C0C0"
+    private val colorGray : String= "808080"
+    private val colorBlack : String= "000000"
+    private val colorRed : String= "FF0000"
+    private val colorMaroon : String= "800000"
+    private val colorYellow : String= "FFFF00"
+    private val colorOlive : String= "808000"
+    private val colorLime : String= "00FF00"
+    private val colorGreen : String= "008000"
+    private val colorAqua : String= "00FFFF"
+    private val colorTeal : String= "008080"
+    private val colorBlue : String= "0000FF"
+    private val colorNavy : String= "000080"
+    private val colorFuchsia : String= "FF00FF"
+    private val colorPurple : String= "800080"
+
+    private val leniencyVal : Int = 16
 
     private fun bindPreview(cameraProvider : ProcessCameraProvider) {
         var preview : Preview = Preview.Builder()
@@ -87,6 +104,25 @@ class GameActivity : AppCompatActivity() {
         intent.putExtra("highscore", highScoreVal.toString())
         startActivity(intent)
         finish()
+    }
+
+    fun colorCheck(valCheckColor: String) {
+        val redCheck = (valCheckColor.substring(0, 1)).toLong(radix = 16)
+        val greenCheck = (valCheckColor.substring(2, 3)).toLong(radix = 16)
+        val blueCheck = (valCheckColor.substring(4, 5)).toLong(radix = 16)
+
+        val redGoal = (sleuthSearchColor.substring(0, 1)).toLong(radix = 16)
+        val greenGoal = (sleuthSearchColor.substring(2, 3)).toLong(radix = 16)
+        val blueGoal = (sleuthSearchColor.substring(4, 5)).toLong(radix = 16)
+
+        if (((redCheck-leniencyVal)<redGoal)&&((redCheck+leniencyVal)>redGoal)) {
+            if (((greenCheck-leniencyVal)<greenGoal)&&((greenCheck+leniencyVal)>greenGoal)) {
+                if (((blueCheck-leniencyVal)<blueGoal)&&((blueCheck+leniencyVal)>blueGoal)) {
+                    gameScore+=1;
+                    newColor(sleuthSearchColor)
+                }
+            }
+        }
     }
 
     fun newColor(oldColor: String) {
