@@ -60,6 +60,8 @@ class GameActivity : AppCompatActivity() {
     private val colorFuchsia : String= "FF00FF"
     private val colorPurple : String= "800080"
 
+    private val colorList = listOf(colorWhite, colorSilver, colorGray, colorBlack, colorRed, colorMaroon, colorYellow, colorOlive, colorLime, colorGreen, colorAqua, colorTeal, colorBlue, colorNavy, colorFuchsia, colorPurple)
+
     private val leniencyVal : Int = 16
 
     private fun bindPreview(cameraProvider : ProcessCameraProvider) {
@@ -126,6 +128,28 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun newColor(oldColor: String) {
-
+        var randomElement = oldColor
+        var colorName = ""
+        while (randomElement==oldColor) {
+            randomElement = colorList.random()
+        }
+        when(randomElement) {
+            colorWhite->colorName = "White"
+            colorSilver->colorName = "Silver"
+            colorGray->colorName = "Gray"
+            colorBlack->colorName = "Black"
+            colorRed->colorName = "Red"
+            colorMaroon->colorName = "Maroon"
+            colorYellow->colorName = "Yellow"
+            colorOlive->colorName = "Olive"
+            colorLime->colorName = "Lime"
+            colorGreen->colorName = "Green"
+            colorAqua->colorName = "Aqua"
+            colorTeal->colorName = "Teal"
+            colorBlue->colorName = "Blue"
+            colorNavy->colorName = "Navy"
+            colorFuchsia->colorName = "Fuchsia"
+            colorPurple->colorName = "Purple"
+        }
     }
 }
