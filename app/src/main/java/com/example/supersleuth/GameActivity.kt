@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.util.Size
 import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
@@ -11,13 +13,15 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import androidx.core.content.PermissionChecker
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
+import androidx.core.graphics.*
 import com.google.common.util.concurrent.ListenableFuture
+import java.nio.ByteBuffer
+import java.util.concurrent.Executors
 
 class GameActivity : AppCompatActivity() {
-
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
 
@@ -87,20 +91,6 @@ class GameActivity : AppCompatActivity() {
 
     private val leniencyVal : Int = 16
 
-    private fun bindPreview(cameraProvider : ProcessCameraProvider) {
-        var preview : Preview = Preview.Builder()
-            .build()
-
-        val viewFinder: PreviewView = findViewById(R.id.previewView)
-
-        var cameraSelector : CameraSelector = CameraSelector.Builder()
-            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-            .build()
-
-        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
-        preview.setSurfaceProvider(viewFinder.surfaceProvider)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         if (ContextCompat.checkSelfPermission(this@GameActivity, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
@@ -117,8 +107,67 @@ class GameActivity : AppCompatActivity() {
 
         cameraProviderFuture.addListener(Runnable {
             val cameraProvider = cameraProviderFuture.get()
-            bindPreview(cameraProvider)
+            startCamera(cameraProvider)
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun startCamera(cameraProvider : ProcessCameraProvider) {
+        var preview : Preview = Preview.Builder()
+            .build()
+
+        val viewFinder: PreviewView = findViewById(R.id.previewView)
+
+        var cameraSelector : CameraSelector = CameraSelector.Builder()
+            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+            .build()
+
+        var imageAnalyzer = ImageAnalysis.Builder()
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .setTargetResolution(Size(1280, 720))
+            .build()
+
+
+        imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image: ImageProxy ->
+            // Get the center pixel of the image
+            val centerX = image.width / 2
+            val centerY = image.height / 2
+
+            val bitmap = image. createBitmap(1280,720)
+            val color:Int? = bitmap.getPixel(centerX, centerY)
+
+//            val buffer = image.planes[0].buffer
+//            val pixelStride = image.planes[0].pixelStride
+//            val rowStride = image.planes[0].rowStride
+//            val rowPadding = rowStride - pixelStride * image.width
+//            val pixelBuffer = ByteBuffer.allocate(pixelStride)
+//            val rgba = IntArray(4)
+
+//            buffer.position(centerY * rowStride + centerX * pixelStride)
+//            for (i in 0 until 4) {
+//                pixelBuffer.position(0)
+//                buffer.get(pixelBuffer.array())
+//                rgba[i] = pixelBuffer.getInt(0)
+//            }
+
+            // Convert the RGBA value to a human-readable format
+//            val red = (rgba[0] and 0xff)
+//            val green = (rgba[1] and 0xff)
+//            val blue = (rgba[2] and 0xff)
+//            val alpha = (rgba[3] and 0xff)
+            val red:Int? = color?.red
+            val green:Int? = color?.green
+            val blue:Int? = color?.blue
+            val alpha:Int? = color?.alpha
+
+            // Do something with the RGBA value
+            Log.d("ImageAnalyzer", "RGBA: $red, $green, $blue, $alpha")
+
+            // Close the image
+            image.close()
+        }
+
+        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview, imageAnalyzer)
+        preview.setSurfaceProvider(viewFinder.surfaceProvider)
     }
 
 
