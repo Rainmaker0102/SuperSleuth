@@ -2,9 +2,12 @@ package com.example.supersleuth
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -110,6 +113,10 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        val sleuthLabelName=findViewById<TextView>(R.id.textView3)
+        sleuthLabelName.text=sleuthSearchName
+        sleuthLabelName.setBackgroundColor(Color.parseColor(sleuthSearchColor))
+
         val highScore =intent.getStringExtra("highscore")
         if (highScore != null) {
             highScoreVal = highScore.toInt()
@@ -208,5 +215,8 @@ class GameActivity : AppCompatActivity() {
                 sleuthSearchColor = "800080"
                 sleuthSearchName = "Purple" }
         }
+        val sleuthLabelName=findViewById<TextView>(R.id.textView3)
+        sleuthLabelName.text=sleuthSearchName
+        sleuthLabelName.setBackgroundColor(Color.parseColor(sleuthSearchColor))
     }
 }
