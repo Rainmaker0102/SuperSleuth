@@ -155,27 +155,58 @@ class GameActivity : AppCompatActivity() {
 
     fun newColor(oldColor: String) {
         var randomElement = oldColor
-        var colorName = ""
         while (randomElement==oldColor) {
             randomElement = colorList.random()
         }
         when(randomElement) {
-            colorWhite->colorName = "White"
-            colorSilver->colorName = "Silver"
-            colorGray->colorName = "Gray"
-            colorBlack->colorName = "Black"
-            colorRed->colorName = "Red"
-            colorMaroon->colorName = "Maroon"
-            colorYellow->colorName = "Yellow"
-            colorOlive->colorName = "Olive"
-            colorLime->colorName = "Lime"
-            colorGreen->colorName = "Green"
-            colorAqua->colorName = "Aqua"
-            colorTeal->colorName = "Teal"
-            colorBlue->colorName = "Blue"
-            colorNavy->colorName = "Navy"
-            colorFuchsia->colorName = "Fuchsia"
-            colorPurple->colorName = "Purple"
+            colorWhite->{
+                sleuthSearchColor = "FFFFFF"
+                sleuthSearchName = "White" }
+            colorSilver->{
+                sleuthSearchColor = "C0C0C0"
+                sleuthSearchName = "Silver" }
+            colorGray->{
+                sleuthSearchColor = "808080"
+                sleuthSearchName = "Gray" }
+            colorBlack->{
+                sleuthSearchColor = "000000"
+                sleuthSearchName = "Black" }
+            colorRed->{
+                sleuthSearchColor = "FF0000"
+                sleuthSearchName = "Red" }
+            colorMaroon->{
+                sleuthSearchColor = "800000"
+                sleuthSearchName = "Maroon" }
+            colorYellow->{
+                sleuthSearchColor = "FFFF00"
+                sleuthSearchName = "Yellow" }
+            colorOlive->{
+                sleuthSearchColor = "808000"
+                sleuthSearchName = "Olive" }
+            colorLime->{
+                sleuthSearchColor = "00FF00"
+                sleuthSearchName = "Lime" }
+            colorGreen->{
+                sleuthSearchColor = "008000"
+                sleuthSearchName = "Green" }
+            colorAqua->{
+                sleuthSearchColor = "00FFFF"
+                sleuthSearchName = "Aqua" }
+            colorTeal->{
+                sleuthSearchColor = "008080"
+                sleuthSearchName = "Teal" }
+            colorBlue->{
+                sleuthSearchColor = "0000FF"
+                sleuthSearchName = "Blue" }
+            colorNavy->{
+                sleuthSearchColor = "000080"
+                sleuthSearchName = "Navy" }
+            colorFuchsia->{
+                sleuthSearchColor = "FF00FF"
+                sleuthSearchName = "Fuchsia" }
+            colorPurple->{
+                sleuthSearchColor = "800080"
+                sleuthSearchName = "Purple" }
         }
     }
 }
