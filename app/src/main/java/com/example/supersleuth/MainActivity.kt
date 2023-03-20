@@ -5,6 +5,9 @@ Android Project -- SuperSleuth -- Inspired by I SPY books where the user
     is given a color to find through the camera and earns points for
     each successful find
 
+Version Control:
+    Git was used for this project and hosted at https://github.com/Rainmaker0102/SuperSleuth
+
 References:
     Android CodeLab for CameraX -> https://developer.android.com/codelabs/camerax-getting-started
     Android Developers Documentation for CameraX (used many sub-pages on this page) ->
