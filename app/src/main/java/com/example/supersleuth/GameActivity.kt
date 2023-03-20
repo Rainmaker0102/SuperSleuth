@@ -102,7 +102,7 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
 
     private val colorList = listOf(colorWhite, colorSilver, colorGray, colorBlack, colorRed, colorMaroon, colorYellow, colorOlive, colorLime, colorGreen, colorAqua, colorTeal, colorBlue, colorNavy, colorFuchsia, colorPurple)
 
-    private val leniencyVal : Int = 16
+    private val leniencyVal : Int = 8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (ContextCompat.checkSelfPermission(this@GameActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
@@ -127,13 +127,6 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
             startCamera(cameraProvider)
         }, ContextCompat.getMainExecutor(this))
     }
-
-//    private fun ByteBuffer.toByteArray(): ByteArray {
-//        rewind()
-//        val data = ByteArray(remaining())
-//        get(data)
-//        return data
-//    }
 
     private fun startCamera(cameraProvider : ProcessCameraProvider) {
         val preview : Preview = Preview.Builder()
@@ -180,58 +173,11 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
             val blue = colorCenter.blue
             val hex = String.format("#%02x%02x%02x", red, green, blue)
 
+            // Log the hex value
             Log.d("GameActivity:ImageAnalysis", "HEX: $hex")
 
+            // Send the hex value to colorCheck
             colorCheck(hex)
-
-
-//            val redBuffer = image.planes[0].buffer[0].toInt()
-//            val greenBuffer = image.planes[0].buffer[1].toInt()
-//            val blueBuffer = image.planes[0].buffer[2].toInt()
-//            val hex = String.format("#%02x%02x%02x", redBuffer, greenBuffer, blueBuffer)
-
-//            val pixelData = buffer[(height * rowStride + width * pixelStride) / 2]
-
-
-//            val rowPadding = rowStride - pixelStride * image.width
-//            val pixelBuffer = ByteBuffer.allocate(pixelStride)
-//            val rgba = IntArray(4)
-
-//            for (i in 0 until 4) {
-//                pixelBuffer.position(0)
-//                buffer.get(pixelBuffer.array())
-//                rgba[i] = pixelBuffer.getInt(0)
-//            }
-
-            // Convert the RGBA value to a human-readable format
-            //
-//            val red = (rgba[0] and 0xff)
-//            val green = (rgba[1] and 0xff)
-//            val blue = (rgba[2] and 0xff)
-//            val alpha = (rgba[3] and 0xff)
-//            val red = (rgba[0]).toString(16)
-//            val green = (rgba[1]).toString(16)
-//            val blue = (rgba[2]).toString(16)
-//            val alpha = (rgba[3]).toString(16)
-//            val red = rgba[0] and 0xff
-//            val green = rgba[1] and 0xff
-//            val blue = rgba[2] and 0xff
-//            val hex = String.format("#%02x%02x%02x", red, green, blue)
-
-//            Log.d("GameActivity:ImageAnalysis", "RGBA: $red, $green, $blue, $alpha")
-//            Log.d("Game:Activity:ImageAnalysis", "Hex RGB: $hex")
-
-//            val alphaPlane = image.planes[0].buffer[0]
-//            val redPlane = image.planes[0].buffer[1]
-//            val greenPlane = image.planes[0].buffer[2]
-//            val bluePlane = image.planes[0].buffer[3]
-
-            // Do something with the RGBA value
-//            Log.d("GameActivity:ImageAnalysis", "RGBA Planes: $redPlane, $greenPlane, $bluePlane, $alphaPlane")
-//
-//            val imageWhole = image.planes[0].buffer
-
-//            Log.d("GameActivity:ImageWhole", "Image Whole: $imageWhole")
 
             // Close the image
             image.close()
