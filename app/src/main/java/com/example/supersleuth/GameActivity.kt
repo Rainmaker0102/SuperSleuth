@@ -139,7 +139,6 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
             .build()
 
         val imageAnalyzer = ImageAnalysis.Builder()
-//            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setTargetResolution(Size(480, 640))
             .build()
@@ -153,19 +152,8 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
             val bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(inputImage)
 
             // Get the center pixel of the image
-//            val centerX = image.width / 2
-//            val centerY = image.height / 2
             val centerX = bitmap.width / 2
             val centerY = bitmap.height / 2
-            val width = image.width
-            val height = image.height
-            val planes = image.planes
-            val format = image.format
-            val buffer = image.planes[0].buffer
-//            val buffer = image.planes[0].buffer.array()
-            val pixelStride = image.planes[0].pixelStride
-            val rowStride = image.planes[0].rowStride
-//            buffer.position(centerY * rowStride + centerX * pixelStride)
 
             val colorCenter = bitmap.getPixel(centerX, centerY)
             val red = colorCenter.red
