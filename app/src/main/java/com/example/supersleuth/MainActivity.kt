@@ -22,13 +22,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ExperimentalGetImage
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import kotlin.system.exitProcess
 
 
-class MainActivity : AppCompatActivity() {
+@ExperimentalGetImage class MainActivity : AppCompatActivity() {
     private var highScoreVal: String = "0"
 
 
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
 
     fun quitTime(view: View) {
         // Do something in response to button click
