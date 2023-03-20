@@ -1,3 +1,9 @@
+/*
+    Resources Relevant to this page
+    https://stackoverflow.com/questions/57432526/convert-camerax-captured-imageproxy-to-bitmap
+    https://stackoverflow.com/questions/59613886/android-camerax-color-detection
+ */
+
 package com.example.supersleuth
 
 import android.Manifest
@@ -12,20 +18,21 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.mlkit.vision.common.InputImage
 import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 import com.google.mlkit.vision.common.internal.ImageConvertUtils
 
-class GameActivity : AppCompatActivity() {
+@ExperimentalGetImage class GameActivity : AppCompatActivity() {
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
 
@@ -121,6 +128,13 @@ class GameActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+//    private fun ByteBuffer.toByteArray(): ByteArray {
+//        rewind()
+//        val data = ByteArray(remaining())
+//        get(data)
+//        return data
+//    }
+
     private fun startCamera(cameraProvider : ProcessCameraProvider) {
         val preview : Preview = Preview.Builder()
             .build()
@@ -132,7 +146,7 @@ class GameActivity : AppCompatActivity() {
             .build()
 
         val imageAnalyzer = ImageAnalysis.Builder()
-            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+//            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setTargetResolution(Size(480, 640))
             .build()
@@ -141,13 +155,15 @@ class GameActivity : AppCompatActivity() {
         imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image: ImageProxy ->
             val rotationDegrees = image.imageInfo.rotationDegrees
 
-            val mediaImage = image.getImage();
-            val image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
-            val bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(image)
+
+            val inputImage = InputImage.fromMediaImage(image.image!!, image.imageInfo.rotationDegrees)
+            val bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(inputImage)
 
             // Get the center pixel of the image
-            val centerX = image.width / 2
-            val centerY = image.height / 2
+//            val centerX = image.width / 2
+//            val centerY = image.height / 2
+            val centerX = bitmap.width / 2
+            val centerY = bitmap.height / 2
             val width = image.width
             val height = image.height
             val planes = image.planes
@@ -158,10 +174,21 @@ class GameActivity : AppCompatActivity() {
             val rowStride = image.planes[0].rowStride
 //            buffer.position(centerY * rowStride + centerX * pixelStride)
 
-            val redBuffer = image.planes[0].buffer[0].toInt()
-            val greenBuffer = image.planes[0].buffer[1].toInt()
-            val blueBuffer = image.planes[0].buffer[2].toInt()
-            val hex = String.format("#%02x%02x%02x", redBuffer, greenBuffer, blueBuffer)
+            val colorCenter = bitmap.getPixel(centerX, centerY)
+            val red = colorCenter.red
+            val green = colorCenter.green
+            val blue = colorCenter.blue
+            val hex = String.format("#%02x%02x%02x", red, green, blue)
+
+            Log.d("GameActivity:ImageAnalysis", "HEX: $hex")
+
+            colorCheck(hex)
+
+
+//            val redBuffer = image.planes[0].buffer[0].toInt()
+//            val greenBuffer = image.planes[0].buffer[1].toInt()
+//            val blueBuffer = image.planes[0].buffer[2].toInt()
+//            val hex = String.format("#%02x%02x%02x", redBuffer, greenBuffer, blueBuffer)
 
 //            val pixelData = buffer[(height * rowStride + width * pixelStride) / 2]
 
@@ -194,17 +221,17 @@ class GameActivity : AppCompatActivity() {
 //            Log.d("GameActivity:ImageAnalysis", "RGBA: $red, $green, $blue, $alpha")
 //            Log.d("Game:Activity:ImageAnalysis", "Hex RGB: $hex")
 
-            val alphaPlane = image.planes[0].buffer[0]
-            val redPlane = image.planes[0].buffer[1]
-            val greenPlane = image.planes[0].buffer[2]
-            val bluePlane = image.planes[0].buffer[3]
+//            val alphaPlane = image.planes[0].buffer[0]
+//            val redPlane = image.planes[0].buffer[1]
+//            val greenPlane = image.planes[0].buffer[2]
+//            val bluePlane = image.planes[0].buffer[3]
 
             // Do something with the RGBA value
-            Log.d("GameActivity:ImageAnalysis", "RGBA Planes: $redPlane, $greenPlane, $bluePlane, $alphaPlane")
+//            Log.d("GameActivity:ImageAnalysis", "RGBA Planes: $redPlane, $greenPlane, $bluePlane, $alphaPlane")
+//
+//            val imageWhole = image.planes[0].buffer
 
-            val imageWhole = image.planes[0].buffer
-
-            Log.d("GameActivity:ImageWhole", "Image Whole: $imageWhole")
+//            Log.d("GameActivity:ImageWhole", "Image Whole: $imageWhole")
 
             // Close the image
             image.close()
