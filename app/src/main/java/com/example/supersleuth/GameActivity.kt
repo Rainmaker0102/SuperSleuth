@@ -10,7 +10,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
@@ -28,9 +27,9 @@ import androidx.core.graphics.red
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.common.InputImage
-import java.nio.ByteBuffer
-import java.util.concurrent.Executors
 import com.google.mlkit.vision.common.internal.ImageConvertUtils
+import java.util.concurrent.Executors
+
 
 @ExperimentalGetImage class GameActivity : AppCompatActivity() {
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
@@ -53,10 +52,6 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
                 //Left empty because compiler complains otherwise
             }
         }
-
-
-
-
 
 
     private var gameScore: Int = 0
@@ -83,6 +78,7 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
     Purple 	    #800080 	rgb(128, 0, 128)
     */
 
+
     private val colorWhite : String= "#FFFFFF"
     private val colorSilver : String= "#C0C0C0"
     private val colorGray : String= "#808080"
@@ -104,23 +100,30 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
 
     private val leniencyVal : Int = 8
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         if (ContextCompat.checkSelfPermission(this@GameActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
 
         val sleuthLabelName=findViewById<TextView>(R.id.textView3)
         sleuthLabelName.text=sleuthSearchName
         sleuthLabelName.setBackgroundColor(Color.parseColor(sleuthSearchColor))
-
         val highScore =intent.getStringExtra("highscore")
+
+
         if (highScore != null) {
             highScoreVal = highScore.toInt()
         }
+
 
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
@@ -128,15 +131,20 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
         }, ContextCompat.getMainExecutor(this))
     }
 
+
     private fun startCamera(cameraProvider : ProcessCameraProvider) {
+
+
         val preview : Preview = Preview.Builder()
             .build()
 
         val viewFinder: PreviewView = findViewById(R.id.previewView)
 
+
         val cameraSelector : CameraSelector = CameraSelector.Builder()
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
+
 
         val imageAnalyzer = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -145,9 +153,6 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
 
 
         imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image: ImageProxy ->
-            val rotationDegrees = image.imageInfo.rotationDegrees
-
-
             val inputImage = InputImage.fromMediaImage(image.image!!, image.imageInfo.rotationDegrees)
             val bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(inputImage)
 
@@ -178,10 +183,14 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
 
 
     fun concedeTime(view: View) {
+
+
         // Do something in response to button click
         if(gameScore > highScoreVal) {
             highScoreVal = gameScore
         }
+
+
         val intent = Intent(this, ScoreActivity::class.java)
         intent.putExtra("score", gameScore.toString())
         intent.putExtra("highscore", highScoreVal.toString())
@@ -189,7 +198,10 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
         finish()
     }
 
-    fun colorCheck(valCheckColor: String) {
+
+    private fun colorCheck(valCheckColor: String) {
+
+
         val redCheck = (valCheckColor.substring(1, 2)).toLong(radix = 16)
         val greenCheck = (valCheckColor.substring(3, 4)).toLong(radix = 16)
         val blueCheck = (valCheckColor.substring(5, 6)).toLong(radix = 16)
@@ -208,7 +220,8 @@ import com.google.mlkit.vision.common.internal.ImageConvertUtils
         }
     }
 
-    fun newColor(oldColor: String) {
+
+    private fun newColor(oldColor: String) {
         var randomElement = oldColor
         while (randomElement==oldColor) {
             randomElement = colorList.random()
